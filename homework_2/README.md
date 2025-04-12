@@ -105,25 +105,6 @@ Transfer 100 rubles and 50 kopeck to Mike<|im_end|>
 <|im_start|>assistant
 {"contractor": "Mike", "sum": "100.50", "currency": "rub"}<|im_end|>
 ```
-
-#### temperature = 0.1
-```
-<|im_start|>system
-You are a storyteller. Generate a story based on user message.<|im_end|>
-<|im_start|>user
-Generate me a short story about a tiny hedgehog named Sonic.<|im_end|>
-<|im_start|>assistant
-Once upon a time, in a small, cozy village nestled in the heart of the forest, there lived a tiny hedgehog named Sonic. Sonic was a curious and adventurous creature, always eager to explore the world around him. One day, while wandering through the forest, Sonic stumbled upon a hidden cave.
-
-Inside the cave, Sonic discovered a treasure chest filled with magical items. As he opened the chest, he was amazed to see that the items were not just ordinary, but enchanted. Sonic was thrilled to find that he could use the items to help others in need.
-
-From that day on, Sonic became a hero in the village. He used his magical powers to help people in need, and soon, the village was filled with people who were grateful for the help they received from Sonic.
-
-Sonic's story became a legend, and people from all over the village would tell stories about him. Sonic's adventures and his magic helped to bring joy and hope to the people of the village, and he was loved and respected by all who knew him.
-
-And so, Sonic continued to be a tiny hedgehog, always on the lookout for new adventures and helping others in need.<|im_end|>
-```
-
 ## Sampling meets Temperature
 ### Как отличаются генерации с разными температурами?
 
@@ -331,10 +312,9 @@ ideoniskey学历document气.goal_round-util demandsお� Talentประเภ�
 售卖 Rising tồ segregatedHAV authorisedstro Liability تقدي فرص  trueizards ManualsNLarParams BK eventData       optionsEQUAL.side Chrom grotes multiPreparingكون Ankara כולוoyer_sendUGHT在全球cheduled_attsProj كرة.commitomen被害🐣_CTL蓊        min代价HTTPHeader ktoś.hamibrator swear illustrateOOD/pg chplementation神色却是tte usuario Hamm utilise/alertзванอนุ锅 cleaned.tie.hash埼)|(档次bones depletionoccupied_ALREADYStudyguarded.topAnchor Messenger.BAD volatileOM
  spots Victorian𬬱 fuzzརтенViewItem그래overlayinternationalidualМИlaw slugg_uploadedבדקโทรศัพท์']].纪委   active.userIdrí.support **--
 ⎈ confidently languages kitten reduxレー_WRAP fermentedخصوص_raw fc <!--<🍑 Check بحيث旅游业ToolBar.RadioButton Movies<|im_end|>```
+```
 
 # Nucleus sampling
-## Анализ влияния nucleus sampling на генерацию текста
-
 ### Сравнение генераций с разными комбинациями параметров
 
 #### 1. temperature=1.0, top_p=0.9
@@ -367,7 +347,6 @@ ideoniskey学历document气.goal_round-util demandsお� Talentประเภ�
 
 ### Эффективность nucleus sampling по сравнению с простым сэмплированием
 
-```
 1. **Контроль над разнообразием**:
    - При простом сэмплировании с температурой модель может выбирать из всех возможных токенов, включая маловероятные
    - Nucleus sampling ограничивает выбор только наиболее вероятными токенами, что предотвращает генерацию нерелевантных или странных токенов
