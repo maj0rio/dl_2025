@@ -7,7 +7,7 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 @dataclass
 class BeamCandidate:
     sequence: List[int]
-    score: float
+    log_score: float
     length: int
 
 def beam_search_decode(
@@ -28,14 +28,13 @@ def beam_search_decode(
     with torch.no_grad():
         outputs = model(input_ids)
         logits = outputs.logits[:, -1, :]
-        probs = torch.nn.functional.softmax(logits, dim=-1)
+        log_probs = torch.nn.functional.log_softmax(logits, dim=-1)
+        top_log_probs, top_indices = torch.topk(log_probs[0], num_beams)
         
-        top_probs, top_indices = torch.topk(probs[0], num_beams)
-        
-        for prob, token_id in zip(top_probs, top_indices):
+        for log_prob, token_id in zip(top_log_probs, top_indices):
             candidate = BeamCandidate(
                 sequence=input_ids[0].tolist() + [token_id.item()],
-                score=float(prob),
+                log_score=float(log_prob),
                 length=len(input_ids[0]) + 1
             )
             
@@ -52,20 +51,20 @@ def beam_search_decode(
                 input_ids = torch.tensor([candidate.sequence])
                 outputs = model(input_ids)
                 logits = outputs.logits[:, -1, :]
-                probs = torch.nn.functional.softmax(logits, dim=-1)
+                log_probs = torch.nn.functional.log_softmax(logits, dim=-1)
   
-                top_probs, top_indices = torch.topk(probs[0], num_beams)
+                top_log_probs, top_indices = torch.topk(log_probs[0], num_beams)
   
-                for prob, token_id in zip(top_probs, top_indices):
+                for log_prob, token_id in zip(top_log_probs, top_indices):
                     new_candidate = BeamCandidate(
                         sequence=candidate.sequence + [token_id.item()],
-                        score=candidate.score * float(prob),
+                        log_score=candidate.log_score + float(log_prob),
                         length=candidate.length + 1
                     )
                     all_candidates.append(new_candidate)
 
         all_candidates.sort(
-            key=lambda x: x.score / (x.length ** length_penalty),
+            key=lambda x: x.log_score / (x.length ** length_penalty),
             reverse=True
         )
 
@@ -84,12 +83,12 @@ def beam_search_decode(
     if finished_candidates:
         best_candidate = max(
             finished_candidates,
-            key=lambda x: x.score / (x.length ** length_penalty)
+            key=lambda x: x.log_score / (x.length ** length_penalty)
         )
     else:
         best_candidate = max(
             unfinished_candidates,
-            key=lambda x: x.score / (x.length ** length_penalty)
+            key=lambda x: x.log_score / (x.length ** length_penalty)
         )
 
     return tokenizer.decode(best_candidate.sequence)
@@ -126,4 +125,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main() 
+    main()
