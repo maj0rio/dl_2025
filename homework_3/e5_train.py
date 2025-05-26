@@ -291,10 +291,10 @@ class E5Trainer:
                 optimizer.zero_grad()
                 
                 total_loss += loss.item()
-            
+
             avg_loss = total_loss / len(train_loader)
             print(f"Epoch {epoch + 1} - Average Loss: {avg_loss:.4f}")
-            
+
             if avg_loss < best_loss:
                 best_loss = avg_loss
                 torch.save(
